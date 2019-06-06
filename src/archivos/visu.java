@@ -119,6 +119,11 @@ public class visu extends javax.swing.JFrame {
         menuArchivo.add(menuItemNuevo);
 
         menuItemCrearCarpeta.setText("Nueva Carpeta");
+        menuItemCrearCarpeta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemCrearCarpetaActionPerformed(evt);
+            }
+        });
         menuArchivo.add(menuItemCrearCarpeta);
 
         menuItemRenombrar.setText("Renombrar");
@@ -130,6 +135,11 @@ public class visu extends javax.swing.JFrame {
         menuArchivo.add(menuItemRenombrar);
 
         menuItemEliminar.setText("Eliminar");
+        menuItemEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemEliminarActionPerformed(evt);
+            }
+        });
         menuArchivo.add(menuItemEliminar);
 
         jMenuBar1.add(menuArchivo);
@@ -342,6 +352,42 @@ public class visu extends javax.swing.JFrame {
         listarArchivos(txtRuta.getText().trim());
         
     }//GEN-LAST:event_menuItemRenombrarActionPerformed
+
+    private void menuItemCrearCarpetaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemCrearCarpetaActionPerformed
+        String nombreDirectorio = JOptionPane.showInputDialog("Ingresa el nombre de la nueva carpeta");
+        String ruta = txtRuta.getText().trim() + "\\" + nombreDirectorio;
+        File directorio = new File(ruta);
+        if(directorio.exists()){
+            JOptionPane.showMessageDialog(this, "El directorio ya existe en la ruta");            
+        }else{
+            directorio.mkdir();
+        }
+        listarArchivos(txtRuta.getText().trim());
+    }//GEN-LAST:event_menuItemCrearCarpetaActionPerformed
+
+    private void menuItemEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemEliminarActionPerformed
+        String archivoSeleccionado = null;
+        boolean isValid = true;
+        
+        if(!listArc.isSelectionEmpty()){
+            archivoSeleccionado = (String) listArc.getSelectedValue();
+        }else if(!listDirec.isSelectionEmpty()) {
+            archivoSeleccionado = (String) listDirec.getSelectedValue();
+        }else if(!listOcu.isSelectionEmpty()){
+            archivoSeleccionado = (String) listOcu.getSelectedValue();
+        }else {
+            isValid = false;
+            JOptionPane.showMessageDialog(this, "No has seleccionado un archivo para eliminar");
+        }
+        
+        if(isValid){
+        
+            String rutaArchivoSeleccionado = txtRuta.getText().trim() + "\\" + archivoSeleccionado;
+            File archivo = new File(rutaArchivoSeleccionado);
+            archivo.delete();
+            listarArchivos(txtRuta.getText().trim());                
+        }
+    }//GEN-LAST:event_menuItemEliminarActionPerformed
 
     public void mostrarInformacionArchivoSeleccionado(String rutaSeleccionada) {
         //obtengo la fecha de ultima modificacion
