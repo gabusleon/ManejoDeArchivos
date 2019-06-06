@@ -38,6 +38,7 @@ public class visu extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jMenuItem2 = new javax.swing.JMenuItem();
         jLabel4 = new javax.swing.JLabel();
         txtRuta = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
@@ -56,7 +57,12 @@ public class visu extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         menuArchivo = new javax.swing.JMenu();
         menuItemNuevo = new javax.swing.JMenuItem();
+        menuItemCrearCarpeta = new javax.swing.JMenuItem();
+        menuItemRenombrar = new javax.swing.JMenuItem();
+        menuItemEliminar = new javax.swing.JMenuItem();
         menuSalir = new javax.swing.JMenu();
+
+        jMenuItem2.setText("jMenuItem2");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -104,13 +110,27 @@ public class visu extends javax.swing.JFrame {
 
         menuArchivo.setText("Archivo");
 
-        menuItemNuevo.setText("Nuevo");
+        menuItemNuevo.setText("Nuevo Archivo");
         menuItemNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 menuItemNuevoActionPerformed(evt);
             }
         });
         menuArchivo.add(menuItemNuevo);
+
+        menuItemCrearCarpeta.setText("Nueva Carpeta");
+        menuArchivo.add(menuItemCrearCarpeta);
+
+        menuItemRenombrar.setText("Renombrar");
+        menuItemRenombrar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemRenombrarActionPerformed(evt);
+            }
+        });
+        menuArchivo.add(menuItemRenombrar);
+
+        menuItemEliminar.setText("Eliminar");
+        menuArchivo.add(menuItemEliminar);
 
         jMenuBar1.add(menuArchivo);
 
@@ -291,7 +311,37 @@ public class visu extends javax.swing.JFrame {
                 System.err.println("Error: archivo no pudo ser creado");
             }
         }
+        
+        listarArchivos(txtRuta.getText().trim());
     }//GEN-LAST:event_menuItemNuevoActionPerformed
+
+    private void menuItemRenombrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemRenombrarActionPerformed
+        
+        String archivoSeleccionado = null;
+        if(!listArc.isSelectionEmpty()){
+            archivoSeleccionado = (String) listArc.getSelectedValue();
+        }else if(!listDirec.isSelectionEmpty()) {
+            archivoSeleccionado = (String) listDirec.getSelectedValue();
+        }else {
+            archivoSeleccionado = (String) listOcu.getSelectedValue();
+        }
+        
+        String rutaArchivoSeleccionado = txtRuta.getText().trim() + "\\" + archivoSeleccionado;
+        File archivo = new File(rutaArchivoSeleccionado);
+        
+        String nombreNuevoArchivo = JOptionPane.showInputDialog("Ingrese el nuevo nombre del archivo:");
+        String rutaNuevoArchivo = txtRuta.getText().trim() + "\\" + nombreNuevoArchivo;
+        File archivoNuevo = new File(rutaNuevoArchivo);
+        
+        if(archivoNuevo.exists()){
+            JOptionPane.showMessageDialog(this, "Ya existe un archivo con ese nombre");            
+        }else{
+            archivo.renameTo(archivoNuevo);
+        }
+        
+        listarArchivos(txtRuta.getText().trim());
+        
+    }//GEN-LAST:event_menuItemRenombrarActionPerformed
 
     public void mostrarInformacionArchivoSeleccionado(String rutaSeleccionada) {
         //obtengo la fecha de ultima modificacion
@@ -356,6 +406,7 @@ public class visu extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
@@ -366,7 +417,10 @@ public class visu extends javax.swing.JFrame {
     private javax.swing.JList listDirec;
     private javax.swing.JList listOcu;
     private javax.swing.JMenu menuArchivo;
+    private javax.swing.JMenuItem menuItemCrearCarpeta;
+    private javax.swing.JMenuItem menuItemEliminar;
     private javax.swing.JMenuItem menuItemNuevo;
+    private javax.swing.JMenuItem menuItemRenombrar;
     private javax.swing.JMenu menuSalir;
     private javax.swing.JTextField txtRuta;
     // End of variables declaration//GEN-END:variables
